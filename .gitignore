@@ -1,1 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+.gitignore
+Would skip repository chatBot/
+node_modules/
+.idea/
+
+
