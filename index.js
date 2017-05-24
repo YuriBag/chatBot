@@ -22,10 +22,11 @@ vk.longpoll.on("message",(msg)=>{
         let data = {
             word:arr[1],
             translation:arr[2]
-        }
+        };
         UsersModel.create(data,(err,res)=>{
-            res.send("added");
-        })
+            console.log(err);
+            console.log(res);
+        });
 
     }
     if(arr[0]==="get"){
