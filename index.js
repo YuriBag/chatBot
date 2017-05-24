@@ -15,8 +15,27 @@ vk.longpoll.on("message",(msg)=>{
     if(-1!==msg.flags.indexOf('outbox')){
         return;
     }
-    //console.log(msg.text);
-    msg.send("lav em");
+   console.log(msg.text);
+    let arr = msg.text.split(" ");
+    console.log(arr[0]);
+    if(arr[0]==="insert"){
+        let data = {
+            word:arr[1],
+            translation:arr[2]
+        }
+        UsersModel.create(data,(err,res)=>{
+            res.send("added");
+        })
+
+    }
+    if(arr[0]==="get"){
+        UsersModel.findOne({word:arr[1]},(err, doc)=>{
+            console.log(err);
+            console.log(doc);
+            //msg.send(doc);
+        })
+    }
+
 });
 
 
