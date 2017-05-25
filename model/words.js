@@ -30,8 +30,13 @@ let mongoReq = {
             if (err) return console.error(err);
             next(null, doc);
             console.log(doc);
-            //console.log(Object.keys(result));
-
+        });
+    },
+    getAll:(data,next)=>{
+        word.find(data,null, {lean : true},(err, doc)=>{
+            if (err) return console.error(err);
+            next(null, doc);
+            console.log(doc);
         });
     }
 }

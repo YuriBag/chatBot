@@ -17,6 +17,7 @@ vk.longpoll.on("message",(msg)=>{
     }
    console.log(msg.text);
     let arr = msg.text.split(" ");
+    let leng = arr.length;
     console.log(arr[0]);
     if(arr[0]==="add"){
         let data = {
@@ -28,13 +29,21 @@ vk.longpoll.on("message",(msg)=>{
        });
 
     }
-    if(arr[0]==="get"){
+    if(arr[0]==="get" && leng!==1){
         let data = {
             word:arr[1]
         }
         MongoReq.getWords(data,(err, doc) => {
             if(!err) msg.send(doc.translation);
         });
+    }
+    if(leng===1 && arr[0]==="get"){
+        let data = {};
+        MongoReq.getAll(data,(err, doc) => {
+            console.log(doc);
+            if(!err) msg.send("word"+doc);
+        });
+
     }
 
 });
