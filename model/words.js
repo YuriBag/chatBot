@@ -13,5 +13,26 @@ let WordsSchema = new Schema({
 });
 let word =  mongoose.model('Words', WordsSchema);
 
+let mongoReq = {
+  addWords:(data, next)=>{
+      word.create(data,(err,doc)=>{
+          if (err) {
+              console.error(err);
+              return
+          };
+          next();
+          console.log(err);
+          console.log(doc);
+      });
+  },
+    getWords:(data,next)=>{
+        word.findOne(data,'translation',{lean : true},(err, doc)=>{
+            if (err) return console.error(err);
+            next(null, doc);
+            console.log(doc);
+            //console.log(Object.keys(result));
 
-module.exports = {word};
+        });
+    }
+}
+module.exports = {mongoReq};
