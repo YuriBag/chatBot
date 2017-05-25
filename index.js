@@ -1,9 +1,8 @@
 const VK = require('vk-io');
 const vk = new VK({token:"74e06880e1dc65f8817f7687a2163d027cfb70a70451e524d2f522a54f47e21415c1fb1ed2c1169b2bd21"});
-const UsersModel = require("./model/users").user;
+const WordsModel = require("./model/words").word;
 
-
-
+let result;
 vk.longpoll.start()
     .then(() => {
     console.log('Long Poll запущен');
@@ -23,18 +22,26 @@ vk.longpoll.on("message",(msg)=>{
             word:arr[1],
             translation:arr[2]
         };
-        UsersModel.create(data,(err,res)=>{
+        WordsModel.create(data,(err,res)=>{
             console.log(err);
             console.log(res);
         });
 
     }
     if(arr[0]==="get"){
-        UsersModel.findOne({word:arr[1]},(err, doc)=>{
-            console.log(err);
-            console.log(doc);
-            //msg.send(doc);
-        })
+
+
+         WordsModel.findOne({word:arr[1]},'translation',{lean : true},(err, doc)=>{
+             console.log(err);
+             console.log(doc);
+            result = doc;
+             console.log(Object.keys(result));
+             msg.send(result.translation);
+
+         });
+
+
+
     }
 
 });
